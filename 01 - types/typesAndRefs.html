@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson One</title>
+</head>
+<body>
+    <h1>Types:</h1>
+
+    <h4>Primitives</h4>
+    <ul>
+        <li>Boolean</li>
+        <li>String</li>
+        <li>Number</li>
+        <li>BigInt (new)</li>
+        <li>Null</li>
+        <li>Undefined</li>
+        <li>Symbol</li>
+    </ul>
+
+    <h4>Objects</h4>
+    <ul>
+        <li>Objects (includes arrays)</li>
+    </ul>
+
+    <hr />
+
+    <h3>Literals vs. References</h3>
+    <p>Literals are the instances of data structures, while references point at them.</p>
+    <p>Primitive variables are passed by value (literal), while objects are passed by reference.</p>
+    <p>This prevents unnecessarily large copies of objects from being made.</p>
+    
+    <h4>Practical Use Case 01:</h4>
+    <p>[See example in the console]</p>
+    <p>Functions that return computed information about their arguments.</p>
+
+    <h4>Practical Use Case 02:</h4>
+    <p>React state hooks provide a value and a setter. If an array is stored, the setter must provide an altered copy of the current array.</p>
+
+    <hr />
+
+    <h3>But What if()</h3>
+    
+    <p>[View in console]</p>
+    <h4>Notable findings:</h4>
+    <ul>
+        <li>The number 0 is treated as "false".</li>
+        <li>Empty string is also "false"</li>
+        <li>Empty arrays and objects are treated as "true"</li>
+    </ul>
+    
+    <h4>Takeaways:</h4>
+    <ul>
+        <li>Never test the existence of a number or string without type checking (typeof).</li>
+        <li>References are treated as true</li>
+    </ul>
+    <hr />
+</body>
+
+<script>
+
+    function runExamples () {
+
+        console.log("Practical Use Case 01:\n\n");
+
+        let numVar = 7
+        let stringVar = "John"
+        let arrayVar = [1, 2, 3]
+
+        function getValues() {
+            console.log("---------")
+            console.log("Variable Values:")
+            console.log("numVar:", numVar)
+            console.log("stringVar:", stringVar)
+            console.log("arrayVar:", arrayVar)
+            console.log("---------")
+        }
+
+        function calcDoubleNumber(x) {
+            x *= 2 // same as x = x * 2
+            return x
+        }
+
+        function calcWithLastName(x) {
+            x += " Geiger"
+            return x
+        }
+
+        function calcWithDoubledValues(xVals) {
+            for (let i = 0; i < xVals.length; i++) {
+                xVals[i] *= 2
+            }
+
+            return xVals
+        }
+
+
+        getValues()
+
+        console.log("calc double number:", calcDoubleNumber(numVar))
+        console.log("calc with last name:", calcWithLastName(stringVar))
+        console.log("calc doubled values:", calcWithDoubledValues(arrayVar))
+
+        getValues()
+        console.log("Uh ohhh.. that array value changed...");
+
+        function calcWithDoubledValues2(xVals) {
+            const xValsCopy = [...xVals]
+            return calcWithDoubledValues(xValsCopy)
+
+            //  A better implementation of this would use the
+            //  array.map() method
+        }
+
+        getValues()
+        console.log("That looks a little better!");
+
+        // if test --------------------------------------
+        const zeroNumber = 0
+        const negNumber = -1
+        const posNumber = 1
+
+        const emptyString = ""
+        const notEmptyString = "test"
+
+        const emptyObject = {}
+        const notEmptyObject = { a: 0 }
+
+        const emptyArray = []
+        const notEmptyArray = [0, 1, 2]
+
+        const nullVar = null
+        const undefinedVar = undefined
+        let a
+
+        const t = true
+        const f = false
+
+        function equalsTrue(value) {
+            console.log(value, typeof value, !!value)
+        }
+
+        console.log("\n -------------- \n ")
+        console.log("Practical Use Case 03:\n\n")
+        console.log("Let's test these values\n")
+
+        console.log("Numbers")
+        equalsTrue(zeroNumber)
+        equalsTrue(negNumber)
+        equalsTrue(posNumber)
+        console.log("")
+
+
+        console.log("Strings")
+        equalsTrue(emptyString)
+        equalsTrue(notEmptyString)
+        console.log("")
+
+        console.log("Objects")
+        equalsTrue(emptyObject)
+        equalsTrue(notEmptyObject)
+        console.log("")
+
+        console.log("Arrays")
+        equalsTrue(emptyArray)
+        equalsTrue(notEmptyArray)
+        console.log("")
+
+        console.log("Null and Undefined")
+        equalsTrue(nullVar)
+        equalsTrue(undefinedVar)
+        console.log("")
+
+        console.log("True/False")
+        equalsTrue(t)
+        equalsTrue(f)
+        console.log("")
+        
+    }
+</script>
+</html>
