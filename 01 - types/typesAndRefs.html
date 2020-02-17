@@ -113,6 +113,8 @@
             //  array.map() method
         }
 
+        console.log("\ncalc with double values a second time", calcWithDoubledValues2(arrayVar));
+        
         getValues()
         console.log("That looks a little better!");
 
@@ -132,7 +134,7 @@
 
         const nullVar = null
         const undefinedVar = undefined
-        let a
+        let neverDefined
 
         const t = true
         const f = false
@@ -167,16 +169,17 @@
         equalsTrue(notEmptyArray)
         console.log("")
 
-        console.log("Null and Undefined")
+        console.log("Null, Undefined, and Never Defined")
         equalsTrue(nullVar)
         equalsTrue(undefinedVar)
+        equalsTrue(neverDefined)
         console.log("")
 
         console.log("True/False")
         equalsTrue(t)
         equalsTrue(f)
         console.log("")
-        
+
     }
 </script>
 </html>
