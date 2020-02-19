@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 2</title>
+
+    <style>
+        code {
+            color: darkred;
+        }
+    </style>
+</head>
+<body>
+    <h1>JS Functions vs. Arrow Functions</h1>
+
+    <h4>Refresher</h4>
+    <p>
+        <b>Regular function:</b>
+        <br>
+        function <code>thisFunction</code> (x) {<br>
+        <span style="margin-left: 20px;">return x * 2<br></span>
+        }<br>
+        <br>
+        <b>Arrow function:</b>
+        <br>
+        <i>explicit</i>
+        <br>
+        (x) => { <br>
+            <span style="margin-left: 20px;">return x * 2</span><br>
+        }
+        <br>
+        <b>or..</b>
+        <br>
+        <i>implicit</i>
+        <br>
+        x => x * 2
+        <br>
+    </p>
+
+    <h4>Differences</h4>
+    <p>Arrow functions are anonymous have no self-awareness</p>
+    <ul>
+        <li>Cannot reference "this"</li>
+        <li>Cannot reference "arguments"</li>
+        <li>Cannot call self (recursive functions)</li>
+    </ul>
+    <p>Code Examples:</p>
+    <ul>
+        <li>Run <code>objectFunctionTest()</code> to view how objects properly utilize functions.</li>
+        <li>Run <code>objectArrowTest()</code> to view what goes wrong when arrow functions try and do the job</li>
+        <li>Run <code>printArgumentsAsFunction()</code>with any number of arguments</li>
+        <li>Run <code>tryPrintingArgumentsAsArrowFunction()</code> with any number of arguments</li>
+    </ul>
+
+    <h4>Implications</h4>
+    <p>As a result:</p>
+    <ul>
+        <li>Arrow functions cannot be used as methods (functions in objects)</li>
+        <li>May not be removed from event handlers</li>
+    </ul>
+
+    <b>Example 1:</b>
+    <br />
+    <button id="functionButton">Click counter using function</button><br>
+    <button id="functionOff">Click me to remove the event handler</button><br>
+    <span>[Challenge: Add a button here that re-adds the initial event handler after it's been removed]</span><br>
+    <button id="arrowButton">Click to learn about arrow functions in the console</button><br>
+    <br />
+
+    <p>Workarounds</p>
+    <p>Arrow functions may be defined as variables, as a solution to reference-related shortcomings</p>
+    <ul>
+        <li>Define arrow functions as variables</li>
+        <li>May be used as event handlers</li>
+        <li>May call self</li>
+    </ul>
+
+    <p>Code Examples:</p>
+    <ul>
+        <li>Type here: <input id="arrowInput" type="text"></input></li>
+        <li>Run <code>removeArrowInputListener()</code> to.. well.. you get it</li>
+        <li>Run <code>arrowFactorial(x)</code> to get the factorial of any positive number (recursively)</li>
+    </ul>
+
+    <h4>Speed Tests</h4>
+    <ul>
+        <li><code>func(a, b)</code></li>
+        <li><code>arrowExplicit(a, b)</code></li>
+        <li><code>arrowImplicit(a, b)</code></li>
+    </ul>
+    <p>Run <code>runFunctionTest([number of cycles])</code> and measure speeds on your browser.</p>
+</body>
+
+<script>
+
+    // DIFFERENCES CODE EXAMPLES
+
+    function objectFunctionTest () {
+        const randomObject = {
+            attribute: 0,
+            methodTest: function () {
+                return ++this.attribute
+            }
+        }
+
+        console.log("Objects may use functions as methods.")
+        console.log("To start off, the attribute's value is:", randomObject.attribute)
+        console.log("Let's run the methodTest a few times.")
+
+        console.log(randomObject.methodTest())
+        console.log(randomObject.methodTest())
+        console.log(randomObject.methodTest())
+
+        console.log("As we see, the value of the attribute has been altered each time.")
+        console.log("The object attribute is now:", randomObject.attribute)
+        return "------------"
+    }
+
+    function objectArrowTest () {
+        const randomObject = {
+            attribute: 0,
+            methodTest: (showThis) => {
+                if (showThis) {
+                    console.log(this)
+                }
+
+                return ++this.attribute
+            }
+        }
+
+        console.warn("Objects may not(!!!) use functions as methods.")
+        console.log("To start off, the attribute's value is:", randomObject.attribute)
+        console.log("Let's run the methodTest and see what happens.")
+
+        console.log(randomObject.methodTest())
+        console.log(randomObject.methodTest())
+        console.log(randomObject.methodTest())
+
+        console.log("Let's run it a final time, but this time, we'll log what 'this' is.")
+        console.log(randomObject.methodTest(true))
+
+        console.log("And that's the problem! The arrow function method is cannot reference the object as 'this'. Rather, the window is targeted.")
+
+        return "-------------"
+    }
+
+    function printArgumentsAsFunction () {
+        console.log("Now printing arguments")
+        console.log(arguments)
+        return "-------------"
+    }
+
+    const tryPrintingArgumentsAsArrowFunction = () => {
+        console.log("Now printing arguments")
+        console.log(arguments)
+        return "-------------"
+    }
+
+
+    // HIGHLIGHTED EXAMPLE 1
+
+    const b1 = document.getElementById('functionButton')
+    const b2 = document.getElementById('functionOff')
+    const b3 = document.getElementById('arrowButton')
+
+    function logAClick () {
+        this.i = this.i || 0
+        console.log("clicks logged:", ++this.i)
+    }
+    b1.addEventListener('click',  logAClick)
+    b2.addEventListener('click', function () {
+        b1.removeEventListener('click', logAClick)
+    })
+    b3.addEventListener('click', ev => {
+        console.log('We can neither track i within the scope of this arrow function, nor remove this event listener ):')
+        console.log("As you can see, this is the window:", this)
+        
+    })
+
+
+    // WORKAROUND EXAMPLES
+
+    const onArrowInputChange = ev => {
+        console.log("Arrow input has changed. Instead of 'this', we can use event.target.")
+        console.log("current value:", ev.target.value)
+    }
+    const arrowInput = document.getElementById('arrowInput')
+    arrowInput.addEventListener("keyup", onArrowInputChange)
+
+    // parentheses may be replaced with a single underscore (treated as an argument)
+    const removeArrowInputListener = _ => {
+        arrowInput.removeEventListener('keyup', onArrowInputChange)
+    }
+
+    const arrowFactorial = x => {
+        if (x > 0) {
+            return x + arrowFactorial(x - 1)
+        }
+
+        return 0
+    }
+
+    
+    
+    // SPEED TEST
+    function testFunction(x, f) {
+        console.time()
+        for (let i = 0; i < x; i++) {
+            f(i, x)
+        }
+        console.timeEnd()
+    }
+
+    function func (a, b) {
+        return a * b
+    }
+
+    const arrowExplicit = (a, b) => {
+        return a * b
+    }
+
+    const arrowImplicit = (a, b) => a * b
+
+    function runFunctionTest(x) {
+        testFunction(x, func)
+        console.log("Function\n-------------")
+        testFunction(x, arrowExplicit)
+        console.log("Explicit Arrow Function\n-------------")
+        testFunction(x, arrowImplicit)
+        console.log("Implicit Arrow Function\n-------------")
+    }
+</script>
+</html>
