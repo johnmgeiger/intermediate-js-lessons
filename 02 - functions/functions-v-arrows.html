@@ -120,8 +120,8 @@
     function objectArrowTest () {
         const randomObject = {
             attribute: 0,
-            methodTest: (showThis) => {
-                if (showThis) {
+            methodTest: isShowThis => {
+                if (isShowThis) {
                     console.log(this)
                 }
 
@@ -181,11 +181,13 @@
 
     // WORKAROUND EXAMPLES
 
+    const arrowInput = document.getElementById('arrowInput')
+
     const onArrowInputChange = ev => {
-        console.log("Arrow input has changed. Instead of 'this', we can use event.target.")
+        console.log("Arrow input has changed. Instead of 'this.value', we can use 'event.target'.")
         console.log("current value:", ev.target.value)
     }
-    const arrowInput = document.getElementById('arrowInput')
+    
     arrowInput.addEventListener("keyup", onArrowInputChange)
 
     // parentheses may be replaced with a single underscore (treated as an argument)
@@ -204,10 +206,10 @@
     
     
     // SPEED TEST
-    function testFunction(x, f) {
+    function testFunction(x, testFunction) {
         console.time()
         for (let i = 0; i < x; i++) {
-            f(i, x)
+            testFunction(i, x)
         }
         console.timeEnd()
     }
