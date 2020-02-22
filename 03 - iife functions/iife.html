@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 3</title>
+    
+    <style>
+        code {
+            color: darkred;
+        }
+
+        img {
+            max-width: calc(100vw - 50px);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Closures and IIFEs</h1>
+
+    <span>Immediately-Invoked Function Expression:</span>
+    <img src="iffy-example.png" alt="iify function">
+    
+    <h4>How an IIFE Works</h4>
+    <ul>
+        <li>Define and excecute statements without cluttering the global namespace</li>
+        <li>Return values when needed (that's a closure)</li>
+        <li>Hide your privates</li>
+    </ul>
+    <p>
+        A <b>closure</b> is a way of giving access to a function's scope, from a function inside of it.
+    </p>
+
+    <h4>Write a Library</h4>
+
+    <p>IIFEs are great for self-contained libraries</p>
+    <ul>
+        <li>They run right away</li>
+        <li>They don't clutter the namespace</li>
+        <li>They protect what they want</li>
+    </ul>
+
+    <h4>Code Example</h4>
+    <p class="hover-me">This text has the class name "hover-me".</p>
+    <p class="hover-me" style="color: #4488ff">This text is orginally blue.</p>
+    <p>This text does not.</p>
+</body>
+
+<script src="library.js"></script>
+<script>
+    // BASIC IIFE
+    (function () {
+        const message = 'This is a message from an IIFE!'
+        console.log(message);
+    }())    
+    console.log("Type of message variable:", typeof message);
+
+    // WITH RETURN AND PRIVATE VARIABLES
+    const startingValue = 5
+    const counter = ((sv) => {
+        let privateC = sv || 0
+
+        const getCount = () => {
+            return privateC
+        }
+        const incrament = () => {
+            return ++privateC
+        }
+
+        return {
+            getCount,
+            incrament
+        }
+    })(startingValue)
+
+    function playWithCounter () {
+        console.log("Counter is a closure, returned from an IIFE.")
+        console.log("Our 'counter.privateC' is: ", counter.privateC)
+        console.log("If we getCount:", counter.getCount())
+        console.log("Now lets incrament a few times")
+        
+        console.log(counter.incrament())
+        console.log(counter.incrament())
+        console.log(counter.incrament())
+
+        console.log("In this case, counter is a closure, which is hiding specific values.");
+    }
+
+    // TEST LIBRARY
+
+    function testLibrarySecurity () {
+        console.log("Hover elements should be undefined")
+        console.log("Value:", hoverElements)
+    }
+    
+</script>
+</html>
