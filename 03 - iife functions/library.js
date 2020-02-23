@@ -1,3 +1,8 @@
+// TODO:
+//      - make this an IIFE function
+//      - make a closure
+//      - track how many times a color is changed
+//      - make that number of changes accessible with a getter
 
 const hoverElements = document.getElementsByClassName('hover-me')
 
@@ -11,8 +16,3 @@ for (el of hoverElements) {
         ev.target.style.color = originalColor
     })
 }
-
-// (function () {
-//     let message = "Hello, Iify!"
-//     console.log(message)
-// }())

@@ -29,7 +29,7 @@
         <li>Hide your privates</li>
     </ul>
     <p>
-        A <b>closure</b> is a way of giving access to a function's scope, from a function inside of it.
+        A <b>closure</b> is a way of giving access to a <i>function's</i> scope, from a function inside of it.
     </p>
 
     <h4>Write a Library</h4>
@@ -53,30 +53,44 @@
     (function () {
         const message = 'This is a message from an IIFE!'
         console.log(message);
-    }())    
+    }())
     console.log("Type of message variable:", typeof message);
 
     // WITH RETURN AND PRIVATE VARIABLES
     const startingValue = 5
-    const counter = ((sv) => {
-        let privateC = sv || 0
+    const counter = ((sv) => { // sv is the starting value
+        // privateCount will be... private
+        let privateCount = sv || 0
+        
+        // public attributes won't work
+        let hasChangedCount = 0
+        
+        // unless they're objects
+        let publicObject = {
+            hasChangedCount: 0
+        }
 
+        // these functions are private unless returned
         const getCount = () => {
-            return privateC
+            return privateCount
         }
         const incrament = () => {
-            return ++privateC
+            hasChangedCount += 1
+            publicObject.hasChangedCount += 1
+            return ++privateCount
         }
 
+        // returning both functions will allow them to be used by "counter"
         return {
             getCount,
-            incrament
+            hasChangedCount, // returning with current value, not a reference
+            incrament,
+            publicObject,
         }
-    })(startingValue)
+    })(startingValue) // passing startinge value 
 
     function playWithCounter () {
-        console.log("Counter is a closure, returned from an IIFE.")
-        console.log("Our 'counter.privateC' is: ", counter.privateC)
+        console.log("Our 'counter.privateCount' is: ", counter.privateCount)
         console.log("If we getCount:", counter.getCount())
         console.log("Now lets incrament a few times")
         
@@ -84,7 +98,13 @@
         console.log(counter.incrament())
         console.log(counter.incrament())
 
-        console.log("In this case, counter is a closure, which is hiding specific values.");
+        console.log("Only objects may be accessed, as they are passed by reference")
+        console.log("Counter number hasn't changed.", counter.hasChangedCount);
+        console.log("So Objects work just fine.", counter.publicObject);
+        console.log("That said, getting values by defining getter functions is more normal")
+        
+
+        console.log("In this case, counter is a closure, which is hiding specific values.")
     }
 
     // TEST LIBRARY
