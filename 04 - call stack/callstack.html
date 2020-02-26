@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 4</title>
+
+
+
+    <style>
+        img {
+            max-width: calc(100vw - 50px);
+        }
+        code {
+            color: darkred;
+        }
+    </style>
+
+</head>
+<body>
+
+    <h1>The Call Stack and Heap</h1>
+    <img src="./callstack.png" alt="call stack visualized">
+    <br>
+    <span>Snapshot of the callstack as <code>func(7)</code> is called</span>
+    <br>
+    <h4>The Heap</h4>
+    <ul>
+        <li>Free store or "heap" of memory</li>
+        <li>Variables allocated on the heap</li>
+        <ul><li>Both literals and references</li></ul>
+        <li>Managed by the JS Engine</li>
+    </ul>
+    <p>The heap is basically responsible for housing the data.</p>
+    
+    <h4>The Stack</h4>
+    <ul>
+        <li>First In Last Out (FILO)</li>
+        <li>Composed of <b>Frames</b> of commands</li>
+        <li>Accesses data on the heap</li>
+        <li>Begins by running <code>main()</code>, which containes the global scope.</li>
+    </ul>
+    <p>Too many frames results in a stack overflow.</p>
+
+    <h4>Coding Examples:</h4>
+    <ul>
+        <li><code>one()</code> calls <code>two()</code>, which calls <code>three()</code></li>
+        <li><code>showRecursively(x)</code> shows with more flexibility</li>
+        <li>Track problems through the stack: <code>watchTheStackTrace()</code></li>
+        <li>Run <code>overFlooooooooooooow()</code> for a stack overflow.</li>
+    </ul>
+</body>
+
+<script>
+    function three () {
+        console.log('----3')
+    }
+    function two () {
+        console.log('--2')
+        three()
+        console.log('--2')
+    }
+
+    function one () {
+        console.log('1')
+        two()
+        console.log('1')
+    }
+
+    function showRecursively (x) {
+        console.log('Current x, start of function', x)
+    
+        if (x > 0) {
+            showRecursively(x - 1)
+        } else {
+            console.log("Reached zero")
+            return
+        }
+
+        console.log("Current x, end of function  ", x)
+    }
+
+    function errorTime () {
+        throw new Error("That shit broken.")
+    }
+
+    function itWasntMe () {
+        return errorTime()
+    }
+
+    function watchTheStackTrace () {
+        itWasntMe()
+    }
+
+    function overFlooooooooooooow() {
+        return overFlooooooooooooow()
+    }
+
+
+</script>
+</html>
