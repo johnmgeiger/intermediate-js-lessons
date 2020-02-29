@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 5</title>
+
+    <style>
+        img {
+            max-width: calc(100vw - 50px);
+        }
+    
+        code {
+            color: darkred;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>The Event Loop</h1>
+    <img src="./eventLoop.png" alt="event loop visual">
+    <span><b>Source:</b> https://medium.com/@Rahulx1/understanding-event-loop-call-stack-event-job-queue-in-javascript-63dcd2c71ecd</span>
+    
+    <h4>The Queue</h4>
+
+    <ul>
+        <li>First in First Out (FIFO)</li>
+        <li>Composed of <b>messages</b></li>
+        <li>Messages are sent from the Queue to the Stack</li>
+        <li>A message is run to completion before the next is sent to the stack</li>
+    </ul>
+
+    <p><b>Note:</b> in the browser, there are two Queues: the Callback Queue and the Render Queue.</p>
+    <p>While the Callback Queue sends a message to the Stack as soon as allowed, the Render Queue attempts to run a new render event every 16.6ms (60 fps).</p>
+
+    <h4>Web APIs</h4>
+
+    <ul>
+        <li>Things like <code>setTimeout()</code> are not actually a part of the JS core language.</li>
+        <li>JS engines/browsers make certain APIs accessible such as:</li>
+        <ul>
+            <li><code>setTimeout()</code>, <code>setInterval()</code>, and <code>requestAnimationFrame()</code></li>
+            <li>DOM events</li>
+            <li>AJAX calls</li>
+        </ul>
+        <li>Web APIs have the ability to add new messages to the Callback Queue</li>
+    </ul>
+
+    <h4>The Event Loop</h4>
+
+    <ul>
+        <li>The Event Loop is the culmination of the:</li>
+        <ul>
+            <li>Stack</li>
+            <li>Web APIs</li>
+            <li>Event Queue</li>
+            <li>Render Queue</li>
+        </ul>
+        <li>The loop is composed of:</li>
+        <ul>
+            <li>The stack runs the current set of frames to completion</li>
+            <li>If a Wep API is utilized to add events, new messages are added to the Queue</li>
+            <li>The "last in" message is pushed onto the Stack and run to completion</li>
+            <li>In between new Event Queue messages, Render Queue messages are prioritized</li>
+            <li>As new messages are turned into frames on the Stack (or the user interacts with the web page), new Events may be created via a Web API</li>
+        </ul>
+    </ul>
+
+    <h4>Visual Example</h4>
+    <a href="http://latentflip.com/loupe/" target="_blank">See Here</a>
+
+    <h4>Coding Example</h4>
+    <p>Arrays and Buttons:</p>
+
+    <button id="b1">Syncronous</button>
+    <button id="b2">Async</button>
+    <button id="b3">Smart Async</button>
+    <br>
+    <button id="b4">Count to ten</button>
+</body>
+
+<script>
+    const syncButton = document.getElementById('b1')
+    const asyncButton = document.getElementById('b2')
+    const smartAsyncButton = document.getElementById('b3')
+    const logButton = document.getElementById('b4')
+
+    function iterateAndDo(x, doSomething) {
+        for (let i = 0; i < x; i++) {
+            doSomething(i)
+        }
+    }
+
+    function msToSecondsString (ms) {
+        return `${ms / 1000} seconds` 
+    }
+
+    let iterations = 500000000
+    syncButton.addEventListener("click", () => {
+        console.log("Syncronous clicked")
+        console.log("Good idea when things are fast enough that they won't block other things.")
+
+        const start = new Date()
+        let total = 0
+
+        iterateAndDo(iterations, i => { total+= i})
+
+        console.log("total", total)
+        console.log("Time:", msToSecondsString(new Date() - start))
+    })
+
+    asyncButton.addEventListener("click", () => {
+        console.log("Dumb Async Clicked")
+        console.log("Good idea when you need to do something that takes time, but you don't want to block the initial render.")
+
+        setTimeout(() => {
+            const start = new Date()
+            let total = 0
+
+            iterateAndDo(iterations, i => { total += i })
+
+            console.log("total", total)
+            console.log("Time:", msToSecondsString(new Date() - start))
+        }, 0)
+    })
+
+    smartAsyncButton.addEventListener("click", () => {
+        console.log("Smart Async")
+        const countBy = 10000000
+
+        function calcAsyncRecursive (iterations, total = 0, i = 0) {
+            setTimeout(() => {
+                const countUntil =  i + countBy > iterations ? 
+                                    iterations :
+                                    i + countBy
+                
+                for (i; i < countUntil; i++ ) {
+                    total += i
+                }
+
+                if (i < iterations)
+                    calcAsyncRecursive(iterations, total, i + 1)
+                else {
+                    console.log("total", total)
+                    console.log("Time: ", msToSecondsString(new Date() - start))
+                }
+            }, 0)
+        }
+
+        const start = new Date()
+
+        calcAsyncRecursive(iterations)
+    })
+
+    logButton.addEventListener("click", () => {
+        console.log("Go!")
+        let i = 0
+        const interval = setInterval(() => {
+            console.log(i + 1)
+            if (++i === 10) {
+                console.log('All done')
+                clearInterval(interval)
+            }
+        }, 1000)
+    })
+
+</script>
+</html>

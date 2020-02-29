@@ -52,19 +52,38 @@
 </body>
 
 <script>
-    function three () {
+    function three (extraInfo) {
+        if (extraInfo)
+            console.log('three added to the stack')
+        
         console.log('----3')
+
+        if (extraInfo)
+            console.log("three popped off the stack")
     }
-    function two () {
+    function two (extraInfo) {
+        if (extraInfo)
+            console.log('two added to the stack')
+        
         console.log('--2')
-        three()
+        three(extraInfo)
         console.log('--2')
+
+        if (extraInfo)
+            console.log("two popped off the stack")
     }
 
-    function one () {
+    function one (extraInfo) {
+        if (extraInfo)
+            console.log('one added to the stack')
+        
         console.log('1')
-        two()
+            
+        two(extraInfo)
         console.log('1')
+
+        if (extraInfo)
+            console.log("one popped off the stack")
     }
 
     function showRecursively (x) {
