@@ -141,7 +141,7 @@
                 }
 
                 if (i < iterations)
-                    calcAsyncRecursive(iterations, total, i + 1)
+                    calcAsyncRecursive(iterations, total, i)
                 else {
                     console.log("total", total)
                     console.log("Time: ", msToSecondsString(new Date() - start))
