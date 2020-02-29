@@ -60,7 +60,7 @@
         <ul>
             <li>The stack runs the current set of frames to completion</li>
             <li>If a Wep API is utilized to add events, new messages are added to the Queue</li>
-            <li>The "last in" message is pushed onto the Stack and run to completion</li>
+            <li>The "first in" message is pushed onto the Stack and run to completion</li>
             <li>In between new Event Queue messages, Render Queue messages are prioritized</li>
             <li>As new messages are turned into frames on the Stack (or the user interacts with the web page), new Events may be created via a Web API</li>
         </ul>
@@ -77,6 +77,7 @@
     <button id="b3">Smart Async</button>
     <br>
     <button id="b4">Count to ten</button>
+    <button id="b5">Just Say Hi.</button>
 </body>
 
 <script>
@@ -84,6 +85,7 @@
     const asyncButton = document.getElementById('b2')
     const smartAsyncButton = document.getElementById('b3')
     const logButton = document.getElementById('b4')
+    const hiButton = document.getElementById('b5')
 
     function iterateAndDo(x, doSomething) {
         for (let i = 0; i < x; i++) {
@@ -164,5 +166,33 @@
         }, 1000)
     })
 
+    hiButton.addEventListener("click", () => {
+        console.log("Just sayin' hi!")
+    })
+
+</script>
+
+<script>
+    // example for the linked page
+
+    // function bar() {
+    //         console.log("bar");
+    //     }
+
+    //     function baz() {
+    //         console.log("baz");
+    //         bar();
+    //     }
+
+    //     function foo() {
+    //         console.log("foo");
+    //         baz();
+    //     }
+
+    //     setTimeout(function immediateTimeoutFunction() {
+    //         console.log("This is from the web api");
+    //     }, 0);
+
+    //     foo();
 </script>
 </html>
