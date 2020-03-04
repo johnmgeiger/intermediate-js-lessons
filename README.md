@@ -6,3 +6,4 @@ Important things to know for any junior-level frontend engineer
 3) Closures and IIFE Functions
 4) Call Stack
 5) Event Loop
+6) Promises and Async

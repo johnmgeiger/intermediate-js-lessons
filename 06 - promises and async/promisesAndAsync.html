@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 6</title>
+
+    <style>
+        img {
+            max-width: calc(100vw - 50px);
+        }
+    
+        code {
+            color: darkred;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Promises and Async/Await</h1>
+
+    <h4>Example Functions:</h4>
+    <img src="functions.png" alt="functions">
+
+    <h4>Callback Hell</h4>
+    <img src="callback-hell.png" alt="callback hell">
+
+    <ul>
+        <li>Common functionality should be divided into seperate functions</li>
+        <li>Callbacks are a result of syncronous code handling asyncronous functionality</li>
+        <li>JS was once ill-equiped to handle complex workflows</li>
+        <li><code>goToCallbackHell()</code></li>
+    </ul>
+
+    <h4>Promises</h4>
+
+    <img src="promises.png" alt="promise purgatory">
+
+    <ul>
+        <li>Introduced to alleviate the stress of working with chained workflow</li>
+        <li>Allows for a flatter and clearer order of calls</li>
+        <li>Syntax is a mix of callbacks and standard syncronous code</li>
+        <li><code>aPromiseOfSomethingNew()</code></li>
+    </ul>
+
+    <h4>Async/Await</h4>
+
+    <img src="async.png" alt="async heven">
+
+    <ul>
+        <li>Async/Await allows for asyncronous code with a syncronous-looking syntax</li>
+        <li>Purely syntatic sugar on top of promises</li>
+        <li>Must define the function as <code>async</code> and <code>await</code> promises</li>
+        <li><code>asyncInTheHole()</code></li>
+    </ul>
+
+    <h4>Final Notes</h4>
+
+    <ul>
+        <li><code>runAllExamples()</code></li>
+        <li>In this case, our examples are running the same way, but this isn't always the case</li>
+        <li>Promises defer action to the "Microtask Queue", not covered here</li>
+        <li>For now: Promises and Async/Await are a path to salvation out of Callback Hell</li>
+    </ul>
+</body>
+
+<script src="magicalFetch.js"></script>
+
+<script>
+    // The building blocks for our examples
+    function stringToJson (d, cb) {
+        const data = JSON.parse(d)
+
+        if (cb)
+            cb(data)
+
+        return data
+    }
+
+    function getListFromJson (data, cb) {
+        const list = data.list ? data.list : []
+
+        if (cb)
+            cb(list)
+
+        return list
+    }
+
+    function getSumFromList (list, cb) {
+        let total = 0
+        for (let num of list) {
+            total += num
+        }
+
+        if (cb)
+            cb(total)
+
+        return total
+    }
+
+    function handleNewTotal (total) {
+        console.log("A new total has been retrieved:", total)
+        return true
+    }
+
+    // Callback Hell
+    function goToCallbackHell () {
+        console.log("Starting callbacks.. *sigh*")
+        magicalFetch(function (str) {
+            stringToJson(str, function (jsonData) {
+                getListFromJson(jsonData, function (list) {
+                    getSumFromList(list, function (sum) {
+                        handleNewTotal(sum)
+                    })
+                })
+            })
+        })
+    }
+
+    // With Promises
+    function aPromiseOfSomethingNew () {
+        console.log("Starting Promise")
+        magicalFetch().then(stringToJson)
+                      .then(getListFromJson)
+                      .then(getSumFromList)
+                      .then(handleNewTotal)
+                      .catch(err => { console.error(err) })
+                      //.finally(console.log("All done with promise"))
+    }
+    
+    async function asyncInTheHole () {
+        console.log("Starting Async/Await")
+
+        try {
+            const dataStr = await magicalFetch()
+            const data = stringToJson(dataStr)
+            const list = getListFromJson(data)
+            const sum = getSumFromList(list)
+            handleNewTotal(sum)
+        } catch (err) {
+            console.error(err)
+        } 
+        finally {
+            console.log("Finally done with async")
+        }        
+    }
+
+    function runAllExamples () {
+        goToCallbackHell()
+        aPromiseOfSomethingNew()
+        asyncInTheHole()
+    }
+</script>
+</html>
