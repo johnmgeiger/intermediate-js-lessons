@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 7</title>
+    
+    <style>
+        img {
+            max-width: calc(100vw - 50px);
+        }
+    
+        code {
+            color: darkred;
+        }
+
+        .is-hidden {
+            display: none;
+        }
+
+        .loading-cat {
+            max-width: 250px;
+        }
+    </style>
+</head>
+<body>
+    
+    <h1>Fetch</h1>
+
+    <p><b>Note:</b> in order to test the Fetch API, we need a server to make requests from. I've setup a simple express server. Make sure you have npm installed and run <code>npm i</code> and then <code>node inded.js</code> then go to the localhost at either port 3000 or the port that is logged in the console.</p>
+
+    <h4>HTTP Requests</h4>
+    <ul>
+        <li>Server calls are the primary method of communication between the client and server</li>
+        <li>The Fetch API replaced the old <code>XMLHTTPRequest</code></li>
+        <li>Updated, using a Promise-baed interface</li>
+    </ul>
+
+    <h4>Fetch Basics</h4>
+
+    <ul>
+        <li>May take <code>GET</code> request by default</li>
+        <ul><li>Test by running: <code>simpleGetRequest()</code></li></ul>
+        <li>The parameter object may specify things like headers, body*, or other settings</li>
+        <li><ul><li>Test by running: <code>simplePostRequest(argumentObject)</code></li></ul></li>
+    </ul>
+
+    <p><b>*Note:</b> <code>GET</code> requests may only pass parameters in via the url, while <code>POST</code> requests may use the <code>body</code> attribute in the fetch parameter object.</p>
+
+    <h4>Responses</h4>
+
+    <ul>
+        <li>Fails with a <code>TypeError</code>, whenever a call is <i>prevented</i></li>
+        <li>Response may be checked via the <code>response.ok</code> attribute</li>
+        <li>The response body may be extrated in various ways:</li>
+        <ul>
+            <li>blob</li>
+            <li>json</li>
+            <li>text</li>
+            <li>arrayBuffer</li>
+            <li>formData</li>
+        </ul>
+        <li>No CORS allowed by default.</li>
+    </ul>
+
+    <h4>Code Example</h4>
+    <p>Let's utilize the Fetch API as well as the <code>Async/Await</code> functionality to implement a loading icon.</p>
+    <p>We'll use a cute loading Gif found <a href="https://dribbble.com/shots/6321168-cat">here</a></p>
+
+    <button id="getButton">Run Simple Get</button>
+    <button id="postButton">Run Simple Post</button>
+    <br>
+    <img    id="loadingImage"
+            class="is-hidden loading-cat"
+            src="/loading.gif" 
+            alt="loading cat">
+    <div id="result"></div>
+
+    <p>Press the buttons to make their respective test calls. Note that the <code>GET</code> call is instant, while the <code>POST</code> call has a two second delay.</p>
+    <p>It's also worth noting that the <code>GET</code> call is passing parameters in via the URL, and not a body, like a propper <code>POST</code>.</p>
+</body>
+
+<script>
+
+    // it's important to note the "async" function
+    async function simpleGetRequest () {
+        try {
+            // fetch a GET request at the given url (on our localhost)
+            const res = await fetch("/testGet")
+            console.log("Our response:", res)
+
+            // make sure that our call was successful
+            if (!res.ok)
+                throw new Error("Bad call.")
+
+            // getting a json from our response
+            // requires the use of a promise, 
+            // handled with an await
+            const responseJson = await res.json()
+            console.log("Our response:", responseJson)
+        } catch (err) {
+            // log out if anything goes wrong
+            console.error(err)
+        }
+    }
+
+    async function simplePostRequest (argJson = {}) {
+        try {
+            // arguments may be specified as a 
+            // variable, or simple written inline
+            const fetchArguments = {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(argJson)
+            }
+            
+            console.log("Arguments passed:", fetchArguments)
+            
+            // make request with the arguments specified above
+            const res = await fetch("/testPost", fetchArguments)
+            
+            if (!res.ok)
+                throw new Error("Failed post request")
+
+            const responseJson = await res.json()
+            console.log("Response:", responseJson)
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    // CODE EXAMPLE:
+
+    const getButton = document.getElementById("getButton")
+    const postButton = document.getElementById("postButton")
+    const loadingImage = document.getElementById("loadingImage")
+    const results = document.getElementById("result")
+
+    let isCalling = false
+
+    function setIsLoading (isLoading) {
+        if (isLoading) {
+            isCalling = true
+            loadingImage.classList.remove("is-hidden")
+        } else {
+            isCalling = false
+            loadingImage.classList.add("is-hidden")
+        }
+    }
+
+    async function makeCall (url, callParams) {
+        // only make one call at a time
+        if (isCalling)
+            return
+
+        setIsLoading(true)
+        try {
+            const res = await fetch(url, callParams)
+
+            if (!res.ok)
+                throw new Error("Bad call.")
+
+            // returning a promise of a json object
+            return res.json()
+        } catch (err) {
+            console.error(err)
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    getButton.addEventListener('click', async () => {
+        const urlMessage = encodeURI("This message comes from a url argument.")
+        const res = await makeCall(`/testGet?message=${urlMessage}`)
+        
+        console.log(res)
+        results.innerText = JSON.stringify(res)
+    })
+
+    postButton.addEventListener('click', async () => {
+            const res = await makeCall("/testPost", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    extraContent: "This call was run from an on-click element."
+                })
+            })
+            
+            console.log(res)
+            results.innerText = JSON.stringify(res)
+        })
+
+</script>
+</html>
