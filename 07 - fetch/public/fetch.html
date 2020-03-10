@@ -199,7 +199,7 @@
 
     getButton.addEventListener('click', async () => {
         const urlMessage = encodeURI("This message comes from a url argument.")
-        const res = await makeCall(`/testGet?message=${urlMessage}`)
+        const res = await makeCall(`/testGet?message=${urlMessage}&second=45`)
         
         handleResponse(res)
     })
