@@ -7,3 +7,4 @@ Important things to know for any junior-level frontend engineer
 4) Call Stack
 5) Event Loop
 6) Promises and Async
+7) Fetch
