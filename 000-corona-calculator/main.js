@@ -1,5 +1,5 @@
 // use an IIFE to run our code right away
-// as well as protect access
+// as well as protect access (closures, yo)
 const CoronaCalculator = (() => {
     // VARIABLES
     
@@ -7,10 +7,11 @@ const CoronaCalculator = (() => {
     let countryData = []
     
     // charts
-    const chart = document.getElementById("chart")
     let myLineChart
 
     // dom elements
+    const chart = document.getElementById("chart")
+
     const calculationForm = document.getElementById("calculationForm")
     const countrySelect = document.getElementById("countries")
     const growthInput = document.getElementById("growthInput")
@@ -18,12 +19,12 @@ const CoronaCalculator = (() => {
     const durationInput = document.getElementById("durationInput")
 
     // FUNCTIONS
-    function calculateGrowth (start, growth, t) {
+    function calculateGrowth (start, growth, time) {
         // Sources:
         // https://www.rapidtables.com/calc/math/exponential-growth-calculator.html
         // https://populationeducation.org/what-doubling-time-and-how-it-calculated/
         const growthRate = .7 / growth
-        return start * Math.pow(1 + growthRate, t)
+        return start * Math.pow(1 + growthRate, time)
     }
 
     function getData () {
@@ -37,6 +38,9 @@ const CoronaCalculator = (() => {
 
     function initFormSubmit () {
         calculationForm.addEventListener('submit', onFormSubmit)
+
+        // build first chart based on default data
+        onFormSubmit()
     }
 
     function initSelectEvents () {
@@ -78,11 +82,11 @@ const CoronaCalculator = (() => {
         // days out, starting at the "tomorrow" value of 1
         for (let i = 1; i <= calculationIntervalCount; i++) {
             const daysOut = i * intervalSize
-            const dataPoint = Math.round(calculateGrowth(start, growth, daysOut))
+            const numberOfCases = Math.round(calculateGrowth(start, growth, daysOut))
 
             // append values to the arrays that are tracking
             // the x and y-axis
-            lineChartData.push(dataPoint)
+            lineChartData.push(numberOfCases)
             labels.push(`${daysOut} ${
                 daysOut === 1 ? 'day' : 'days'
             }`)
@@ -119,6 +123,13 @@ const CoronaCalculator = (() => {
 
     function updateChart (lineChartData, labels) {
         // https://www.chartjs.org/docs/latest/charts/line.html
+        
+        // prevent adding multiple charts to the
+        // same canvas element
+        if (myLineChart)
+            myLineChart.destroy()
+
+        // add the chart to the element
         myLineChart = new Chart(chart, {
             type: 'line',
             data: {
@@ -167,9 +178,6 @@ const CoronaCalculator = (() => {
     renderSelect()
     initFormSubmit()
     initSelectEvents()
-
-    // build first chart based on default data
-    onFormSubmit()
 
     // returned for the sake of playing around
     // in the console with the CoronaCalculator object
