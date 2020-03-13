@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coronavirus Calculator</title>
+
+    <style>
+        body {
+            margin-bottom: 200px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Coronavirus Calculator</h1>
+
+    <h4>Before we start:</h4>
+
+    <span>There are some important things to remember:</span>
+    <ul>
+        <li><b>Don't</b> go to the hispital if you feel ill</li>
+        <ul>
+            <li>Fever</li>
+            <li>Caugh</li>
+            <li>Sore throat</li>
+            <li>Difficulty breathing</li>
+        </ul>
+        <li>Contact your hospital or healthcare provider first</li>
+        <li>Soap, soap, soap</li>
+        <li>Avoid contact</li>
+        <li><a href="https://www.yalemedicine.org/stories/2019-novel-coronavirus/" target="_blank">Read more</a></li>
+    </ul>
+
+    <h4>The Objective:</h4>
+    <ul>
+        <li>Overview of writing a simple webapp using vanilla javascript</li>
+        <li>Use JS in the console to gather some data</li>
+        <li>Utilize 3rd party libraries where necessary</li>
+    </ul>
+
+    <h4>The Project:</h4>
+    <span>Create a calculator that takes in the:</span>
+    <ul>
+        <li><b>Growth Rate:</b> how many days before the number of cases doubles</li>
+        <li><b>Starting Point:</b> how many cases to start the calculation at</li>
+        <li><b>Duration:</b> number of days to project until</li>
+    </ul>
+    <p>and generate a line chart of the projected growth.</p>
+    <p>Data should be retrieved from <i>Our World in Data</i> <a href="https://ourworldindata.org/coronavirus" target="_blank">here.</a> by running the script in <code>data.js</code> and copying the return value.</p>
+
+    <h4>Growth Calculator</h4>
+    <p>Select a country or enter your own values.</p>
+
+    <form id="calculationForm">
+        <select id="countries"></select>
+        <br>
+        <span>
+            Growth Rate (days to double): 
+            <input
+                id="growthInput"
+                min="1"
+                placeholder="#" 
+                type="number"
+                value="5" />
+        </span>
+        <br>
+        <span>
+            Starting point (cases):
+            <input 
+                id="startingInput" 
+                min="1" 
+                placeholder="#" 
+                type="number"
+                value="500" />
+        </span>
+        <br>
+        <span>
+            Duration (days):
+            <input 
+                id="durationInput" 
+                min="5" 
+                placeholder="#" 
+                type="number"
+                value="14" />
+        </span>
+        <br>
+        <button type="submit">Generate Map</button>
+    </form>
+    <div style="width:75%;">
+        <canvas id="chart"></canvas>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="data.js"></script>
+<script src="main.js"></script>
+</html>
