@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 8</title>
+
+    <style>
+        body {
+            margin-bottom: 200px;
+        }
+
+        img {
+            max-width: calc(100vw - 50px);
+        }
+    
+        code {
+            color: darkred;
+        }
+    </style>
+</head>
+<body>
+    <h1>Top 5 Array Loops</h1>
+    <p>Arrays in Javascript have a ton of built in functionality. Here are a list of my top 5 built-in array loops to use when developing.</p>
+
+    <h4>Standard map() and forEach()</h4>
+    <ul>
+        <li>Both <code>map()</code> and <code>forEach()</code> perform a function for each element in an array</li>
+        <li>Mapping is used when an array must be returned</li>
+        <li>The <code>forEach()</code> loop is used when only actions need to be performed</li>
+    </ul>
+
+    <b>Code Examples:</b>
+    <img src="numberArray.png" alt="objects">
+    <br>
+    <img src="example-01.png" alt="function">
+    <br>
+
+    <button id="forEachButton">Log Values Doubled</button>
+    <button id="mapButton">Log Array of Doubled Values</button>
+    <br>
+
+    <h4>Filter</h4>
+    <p>Sometimes it's important to show just a portion of the data that we have access too. That's where the <code>filter()</code> method comes in handy.</p>
+
+    <ul>
+        <li>Returns a new array</li>
+        <li>Loops through an array, running a given function on every element</li>
+        <li>If <code>true</code> is returned, the <i>element</i> will be included in the returned array</li>
+    </ul>
+    
+    <b>Code Examples:</b>
+    <p>Each of the following buttons will filter the various sample arrays and log out a subset of them.</p>
+    
+    <img src="numberArray.png" alt="objects">
+    <br>
+    <img src="stringArray.png" alt="objects">
+    <br>
+    <img src="objectArray.png" alt="objects">
+    <br>
+    <img src="example-02.png" alt="function">
+    
+
+    <button id="filterNumbersButton">Log Even Numbers</button>
+    <button id="filterStringsButton">Log Short Strings</button>
+    <button id="filterObjectsButton">Log the Married Objects</button>
+    <br>
+
+    <h4>Sort</h4>
+    <p>As with <code>filter()</code>, the <code>sort()</code> method gives us more control over how we use an array.</p>
+
+    <ul>
+        <li>Returns a new array</li>
+        <li>Contains all of the same elements</li>
+        <li>The order of the elements is determined by the function passed to filter</li>
+        <ul>
+            <li>Primitives will be sorted from smallest to largest by default</li>
+            <li>No function must be passed in this case</li>
+        </ul>
+    </ul>
+
+    <b>About the function passed:</b>
+    <ul>
+        <li>A function should take two arguments (two items to campare)</li>
+        <li>If a negative is returned, the first item is placed first</li>
+        <li>Otherwise, the second is placed first</li>
+    </ul>
+
+    <b>Code Examples:</b>
+    <p>Let's do some basic sorting. First, we'll look at the default sort on numbers, and then we'll write one to sort the object array.</p>
+    
+    <img src="numberArray.png" alt="objects">
+    <br>
+    <img src="objectArray.png" alt="objects">
+    <br>
+    <img src="example-03.png" alt="function">
+    <br>
+    <button id="sortNumbersButton">Basic Sort: Numbers</button>
+    <button id="sortObjectsButton">Sort Youngest to Oldest</button>
+
+    <h4>Find</h4>
+    <p>The <code>find()</code> method is used to identify the first instance of a matching element in an array.</p>
+    <ul>
+        <li>Runs through the array, running the given function with each element as the argument</li>
+        <li>If a <code>true</code> value is returned, the element is then returned by <code>find()</code></li>
+        <li>May be used to check for a match in an array, or to retrieve the value to be used</li>
+    </ul>
+
+    <b>Code Examples:</b>
+    <p>Now let's put things into action. First, we'll identify whether a given number can be found in our list, and then, we'll retrieve a member from the objects list.</p>
+    
+    <img src="numberArray.png" alt="objects">
+    <br>
+    <img src="objectArray.png" alt="objects">
+    <br>
+    <img src="example-04.png" alt="function">
+    <br>
+    
+    <input id="findNumberInput" type="number">
+    <button id="findNumberButton">Does our list contain?</button>
+    <button id="findObjectsButton">Find Charles</button>
+    
+    <h4>Join</h4>
+
+    <p>Our final method <code>join()</code> is used to merge array elements together as one string.</p>
+    <ul>
+        <li>Converts array elements to strings and joins them all together</li>
+        <li>By default, elements are separated by a "<code>,</code>"</li>
+        <li>String argument may be passed to set the delimiter</li>
+    </ul>
+
+    <b>Code Examples:</b>
+    <p>Let's play around with our string array a bit.</p>
+    
+    <img src="stringArray.png" alt="objects">
+    <br>
+    <br>
+    <img src="example-05.png" alt="function">
+    <br>
+    
+    <input id="joinInput" type="text">
+    <button id="joinButton">Join on input</button>
+
+    <h4>Chaining Our Methods</h4>
+
+    <ul>
+        <li>These methods are returning arrays</li>
+        <ul><li>With the exception of <code>forEach()</code> and <code>join()</code></li></ul>
+        <li>We can chain these looping methods together for brevity</li>
+        <li>Each outward method will work off of the array from the previous one</li>
+        <li><code>someArray.sort(funcA).map(funcB).filter(funcC)</code></li>
+    </ul>
+
+    <b>Code Examples:</b>
+    <p>For this final example, we will chain together four methods and append the result to a <code>div</code> tag.</p>
+    <ol>
+        <li>Filter out individuals of the chosen age</li>
+        <li>Sort by age</li>
+        <li>Map through and return an array of html strings to render</li>
+        <li>Join the strings</li>
+    </ol>
+
+    <img src="objectArray.png" alt="objects">
+    <br>
+    <img src="example-06.png" alt="function">
+    <br>
+    
+    <input id="chainInput" type="number">
+    <button id="chainButton">Render All But...</button>
+    <div id="chainContent"></div>
+
+    <br>
+    <h4>Final thoughts</h4>
+    <ul>
+        <li>Array looping methods are a quick way to step up your JS game</li>
+        <li>Can be hard to conceptualize at first</li>
+        <li>Get's easier as you work with them so practice!!</li>
+    </ul>
+</body>
+
+<script>
+    const exampleArrayNumbers = [1, 3, 5, 2, 4]
+    
+    const exampleArrayStrings = ["abc", "defghi", "jkl", "mnopqrstuv", "wx", "yz"]
+    
+    // simulating a survey of individuals
+    const exampleArrayWithObjects = [
+        { name: "Bill", age: 45, sex: "male", isMarried: true },
+        { name: "Betty", age: 42, sex: "female", isMarried: true },
+        { name: "Charles", age: 23, sex: "male", isMarried: false },
+        { name: "Christy", age: 32, sex: "female", isMarried: false },
+        { name: "Richard", age: 16, sex: "yes please", isMarried: false },
+    ]
+
+    // DOM ELEMENTS
+    const forEachButton = document.getElementById("forEachButton")
+    const mapButton = document.getElementById("mapButton")
+
+    const filterNumbersButton = document.getElementById("filterNumbersButton")
+    const filterStringsButton = document.getElementById("filterStringsButton")
+    const filterObjectsButton = document.getElementById("filterObjectsButton")
+
+    const sortNumbersButton = document.getElementById("sortNumbersButton")
+    const sortObjectsButton = document.getElementById("sortObjectsButton")
+
+    const findNumberInput = document.getElementById("findNumberInput")
+    const findNumberButton = document.getElementById("findNumberButton")
+    const findObjectsButton = document.getElementById("findObjectsButton")
+
+    const joinInput = document.getElementById("joinInput")
+    const joinButton = document.getElementById("joinButton")
+
+    const chainInput = document.getElementById("chainInput")
+    const chainButton = document.getElementById("chainButton")
+    const chainContent = document.getElementById("chainContent")
+    
+    // EXAMPLE ONE
+    forEachButton.addEventListener("click", () => {
+        exampleArrayNumbers.forEach((item, index) => {
+            console.log(`${item * 2} (at index ${index})`)
+
+            // NO RETURN NECESSARY
+        })
+    })
+
+    mapButton.addEventListener("click", () => {
+        const retArray = exampleArrayNumbers.map((item, i) => {
+            console.log("At index", i)
+            
+            // DON'T FORGET TO RETURN!!!
+            return item * 2
+        })
+
+        console.log("Returned array:", retArray)
+    })
+
+    // EXAMPLE TWO
+
+    // standard function
+    filterNumbersButton.addEventListener("click", () => {
+        console.log("Each number returned should be even.")
+        console.log(exampleArrayNumbers.filter(function (num){
+            return !(num % 2)
+        }))
+    })
+
+    // arrow function
+    filterStringsButton.addEventListener("click", () => {
+        console.log("Each string returned should be 3 or fewer characters.")
+        console.log(exampleArrayStrings.filter(str => {
+            return str.length < 4
+        }))
+    })
+
+    // brief arrow function (implicit return value)
+    filterObjectsButton.addEventListener("click", () => {
+        console.log("Each object returned should have the isMarried attribute.")
+        console.log(exampleArrayWithObjects.filter(obj => obj.isMarried))
+    })
+
+    // EXAMPLE THREE
+
+    // function for our loops don't need to be inline
+    function youngestFirst (a, b) {
+        try {
+            return a.age - b.age
+        } catch (err) { return 0 }
+    }
+    sortNumbersButton.addEventListener("click", () => {
+        console.log("We should see a perfectly sorted list")
+        console.log(exampleArrayNumbers.sort())
+    })
+
+    sortObjectsButton.addEventListener("click", () => {
+        console.log("We should an array of objects. Sorted youngest to oldest.")
+        console.log(exampleArrayWithObjects.sort(youngestFirst))
+    })
+
+
+    // EXAMPLE FOUR
+
+    findNumberButton.addEventListener("click", () => {
+        try {
+            const numberToFind = parseInt(findNumberInput.value)
+            console.log(`Does our number list have ${numberToFind}?`)
+            console.log(exampleArrayNumbers.find(x => x === numberToFind) ? "Yes" : "Nope")
+            
+        } catch (err) { console.error(err) }
+    })
+
+    findObjectsButton.addEventListener("click", () => {
+        console.log("Let's find charles and log the return value.")
+        console.log(exampleArrayWithObjects.find(obj => obj.name === "Charles" ))
+    })
+
+    // EXAMPLE FIVE
+
+    joinButton.addEventListener("click", () => {
+        const val = joinInput.value
+        console.log(`Time to join on "${val}"`)
+        console.log(exampleArrayStrings.join(val))
+    })
+
+    // EXAMPLE SIX
+
+    chainButton.addEventListener("click", () => {
+        const age = parseInt(chainInput.value)
+        console.log("Excluding age:", age)
+
+        chainContent.innerHTML = exampleArrayWithObjects.filter(x => x.age !== age)
+                        .sort(youngestFirst)
+                        .map(person => {
+                            // the html comment is for 
+                            // the es6-string-html plugin
+                            return /*html*/`
+                                <div>
+                                    <span><b class>${person.name}</b> (${
+                                        person.isMarried ?
+                                        "M" :
+                                        "S"
+                                    })</span>
+                                    <br />
+                                    <span><b>Age:</b> ${person.age}</span>
+                                    <br />
+                                    <span><b>Sex:</b> ${person.sex}</span>
+                                    <hr />
+                                </div>
+                            `
+                        }).join("") // join all strings
+    })
+
+</script>
+</html>

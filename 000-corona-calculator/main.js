@@ -97,7 +97,7 @@ const CoronaCalculator = (() => {
 
     function renderSelect () {    
         // generate list of options and add them
-        // as the options for the country select element
+        // as the option elements to the country select element
         
         //  1) map the available country data
         //      -returns an array of strings
