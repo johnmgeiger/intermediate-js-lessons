@@ -8,3 +8,4 @@ Important things to know for any junior-level frontend engineer
 5) Event Loop
 6) Promises and Async
 7) Fetch
+8) Array Loop Methods
