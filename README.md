@@ -9,3 +9,4 @@ Important things to know for any junior-level frontend engineer
 6) Promises and Async
 7) Fetch
 8) Array Loop Methods
+9) Web Workers

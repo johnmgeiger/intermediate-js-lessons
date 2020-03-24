@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Workers</title>
+
+    <style>
+        body {
+            margin-bottom: 100px;
+        }
+    
+        img {
+            max-width: calc(100vw - 50px);
+        }
+    
+        code {
+            color: darkred;
+        }
+    </style>
+
+</head>
+<body>
+    
+    <h1>Web Workers: The Basics</h1>
+
+    <p><b>Note:</b> Running a web worker must be done from a server. Just loading the static HTML file into a browser may
+        not work.
+        <ul>
+            <li><code>npm install http-server -g</code></li>
+            <li>Run <code>http-server .</code> from inside the Lesson 9 directory</li>
+            <li>Open this file at <code>http://localhost:8080/ww.html</code></li>
+        </ul>
+    </p>
+    <h4>The Basics</h4>
+    <ul>
+        <li>Javascript is single-threaded at it's core</li>
+        <li>Web Workers are a way to handle multi-threaded workloads</li>
+        <li>Used as a tool by the main thread to offload a heavy workload</li>
+    </ul>
+
+    <img src="./img/web-worker.jpg" alt="web-workers"><br>
+    <span>src: https://bitsofco.de/web-workers-vs-service-workers-vs-worklets/</span>
+
+    <h4>In Use</h4>
+    <ul>
+        <li>Self-contained global scope</li>
+        <li>May not access the DOM</li>
+        <li>Instantiated with <code>new Worker([file/path])</code></li>
+        <li>Communicates with the main loop via events</li>
+        <ul><li><code>postMessage()</code></li></ul>
+    </ul>
+
+    <h4>Send a Basic Message</h4>
+    <p>Let's make a basic worker and send it a message.</p>
+    <span>In our main.js:</span>
+    <img src="./img/ex-1-main.png" alt="main"><br>
+    <span>In our worker1.js:</span>
+    <img src="./img/ex-1-worker.png" alt="worker1"><br>
+    <ul>
+        <li>Run <code>exampleOne()</code></li>
+    </ul>
+
+    <h4>Let's talk back</h4>
+    <ul>
+        <li>Web Workers have the ability to send messages back to the main thread</li>
+        <li>They access their global scope via the <code>self</code> key word</li>
+        <ul><li><code>self.postMessage()</code></li></ul>
+        <li>Objects may be sent, giving more flexibility</li>
+    </ul>
+    <p>
+        In order for the main thread and a various web worker to communicate, both will need to define <code>onmessage</code> and <code>postMessage()</code> functionality.
+        <ul>
+            <li>In the main thread, these will be defined as a part of the (already instantiated) web worker</li>
+            <li>In the web worker, they will be defined as a part of <code>self</code></li>
+        </ul>
+        <span>Main:</span>
+        <img src="./img/ex-2-main.png" alt="main"><br>
+        <span>Worker:</span><br>
+        <img src="./img/ex-2-worker.png" alt="worker"><br>
+    </p>
+
+    <h4>Primary Use Cases</h4>
+    <ul>
+        <li>Large data computation</li>
+        <li>Background "I/O"</li>
+        <ul>
+            <li>Large DB updates</li>
+            <li>Massive file upload</li>
+            <li>Polling</li>
+        </ul>
+    </ul>
+
+    <p>Let's now compare this to the calculation done in Lesson 5, on the event loop. Before web workers, we could only rely on async computations to make large calculations without blocking the main loop.</p>
+
+    <span>Main:</span><br>
+    <img src="./img/ex-3-main.png" alt=""><br>
+    <span>Worker:</span><br>
+    <img src="./img/ex-3-worker.png" alt=""><br>
+    <button id="b1">Start Counting</button>
+    <button id="b2">Do the big </button>
+
+    <h4>Final Thoughts:</h4>
+    <ul>
+        <li>Web Workers are a powerful tool for keeping the main thread open</li>
+        <li>The main thread still controls the DOM/view</li>
+        <li>Web Workers are great for computationally/time intensive tasks</li>
+        <li>Not an everyday tool for most webapps</li>
+        <ul><li>Good to know it exists</li></ul>
+    </ul>
+</body>
+
+<script src="main.js"></script>
+</html>
