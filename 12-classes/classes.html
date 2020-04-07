@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classes</title>
+
+    <style>
+        body {
+            margin-bottom: 100px;
+        }
+    
+        img {
+            max-width: calc(100vw - 50px);
+        }
+    
+        code {
+            color: darkred;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Javascript Classes</h1>
+    
+    <h4>Back to Class</h4>
+    <ul>
+        <li>JS Classes are a syntactic improvement of <i>prototypical inheritance</i></li>
+        <li>Composed of <b>attributes</b> and <b>methods</b></li>
+        <li>Instances of a class are instantiated with the <code>new</code> keyword</li>
+        <ul><li><code>const dog = new Dog()</code></li></ul>
+        <li>Names are capitalized by convention</li>
+    </ul>
+
+    <img src="./img/basic.png">
+
+    <h4>Static</h4>
+    <ul>
+        <li>Static methods are bound to the Class</li>
+        <li>They are <b>not</b> directly called by instantiated objects</li>
+        <ul><li>Can be accessed via the <code>constructor</code> attribute</li></ul>
+        <li>Generally serve a utlity purpose</li>
+        <ul><li><code>Array.isArray()</code></li></ul>
+    </ul>
+
+    <img src="./img/static.png">
+
+    <h4>Getters and Setter</h4>
+    <ul>
+        <li>Getters allow computed values to be accessed like attributes</li>
+        <li>Setters allow for custom functionality to be applied when setting an attribute</li>
+        <li>Utilized by adding a keyword before a function, who's name will be treated as an attribute</li>
+        <ul>
+            <li><code>get</code></li>
+            <li><code>set</code></li>
+        </ul>
+    </ul>
+
+    <img src="./img/getset.png">
+
+    <h4>Inheritance</h4>
+    <ul>
+        <li>Classes may inherit functionality</li>
+        <li>A <b>child</b> will <code>Extend</code> a <b>parent</b></li>
+        <li>The parent's constructor may be called via <code>super(args)</code></li>
+        <ul><li>From the child's constructor</li></ul>
+        <li>The child may then access all methods and attributes from the parent</li>
+    </ul>
+
+    <img src="./img/ext-1.png"><br>
+    <img src="./img/ext-2.png">
+
+    <h4>Private (Experimental)</h4>
+    <ul>
+        <li>Private attributes are an experimental feature</li>
+        <li>Begin the name with <code>#</code></li>
+        <li>Private != Hidden</li>
+        <li>Should be free to use with transpiler like babel</li>
+    </ul>
+
+    <img src="./img/private.png">
+
+    <h4>Final Thoughts</h4>
+    <ul>
+        <li>Classes are often viewed as merely an inheritance tool for JS</li>
+        <li>They provide much more than that</li>
+        <li>When used properly, classes can help keep organized</li>
+        <ul><li>And readable for those pesky Java Developers (;</li></ul>
+    </ul>
+</body>
+
+<script src="index.js"></script>
+</html>
