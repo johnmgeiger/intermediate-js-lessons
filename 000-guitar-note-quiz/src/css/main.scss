@@ -1,0 +1,39 @@
+@import "fretboard";
+
+body {
+    margin-bottom: 100px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+img {
+    max-width: calc(100vw - 50px);
+}
+
+h1 {
+    text-align: center;
+}
+
+code {
+    color: darkred;
+}
+
+.container {
+    width: 100%;
+    font-size: 20px;
+    text-align: center;
+
+    .button {
+        padding: 6px;
+        background-color: #89cff0;
+        border: 0px;
+        border-radius: 7px;
+    }
+
+    .question {
+        padding-top: 35px;
+
+        h4 {
+            margin: 5px;
+        }
+    }
+}
