@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON</title>
+
+    <style>
+        body {
+            margin-bottom: 100px;
+        }
+    
+        img {
+            max-width: calc(100vw - 50px);
+        }
+    
+        code {
+            color: darkred;
+        }
+
+        .people {
+            padding: 15px;
+            border: 1px solid gray;
+            border-radius: 3px;
+        }
+
+        .people div {
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Javascript JSON</h1>
+    
+    <h4>Overview</h4>
+    <ul>
+        <li>What it is</li>
+        <li>Working with it</li>
+        <li>Parsing/Stringify-ing</li>
+        <li>Practical Example</li>
+    </ul>
+
+    <h4>What is JSON</h4>
+    <ul>
+        <li><b>J</b>ava<b>S</b>cript <b>O</b>bject <b>N</b>otation</li>
+        <li>Native Object in the Javascript language</li>
+        <li>Standard data structure of the web</li>
+        <li>Standard for AJAX/HTTP Request communication</li>
+    </ul>
+
+    <h4>Working with JSON</h4>
+    <ul>
+        <li>Passed by reference(!)</li>
+        <li>Composed of Key-Value pairs</li>
+        <li>Values may be any any JS data structure</li>
+        <ul>
+            <li>Numbers, strings, arrays, objects, etc.</li>
+        </ul>
+        <li>Accessed in two primary ways</li>
+        <ul>
+            <li><code>example.keyA</code></li>
+            <li><code>example[“key B”]</code></li>
+            <li>Note that key B has a space, and therefore requires reference by string</li>
+        </ul>
+    </ul>
+
+    <img src="./img/json1.png" alt="example json">
+    <br>
+
+    <h4>Parse/Stringify</h4>
+    <ul>
+        <li>Backend systems may use strings of JSONs to transmit data</li>
+        <li>The <code>JSON</code> class has two static methods to help</li>
+        <ul>
+            <li><code>JSON.parse()</code></li>
+            <li><code>JSON.stringify()</code></li>
+        </ul>
+        <li>Javascript also has built-in functions to help work with network calls</li>
+        <ul>
+            <li><code>encodeURI()</code></li>
+            <li><code>decodeURI()</code></li>
+        </ul>
+    </ul>
+    <p><b>Challenge:</b> turn the following string into a usable object: <code>%7B%22message%22:%22Subscribe%20now%20(:%22,%22b%22:100%7D</code></p>
+    
+    <h4>Practical Example</h4>
+    <img src="./img/json2.png" alt="response json">
+    <ul>
+        <li>Simulating an already parsed response from the server</li>
+        <li>Given: <code>personToHTMLString</code></li>
+        <li><b>Goal:</b> render each person from the response in the div below (id: people)</li>
+        <ul><li>Normal for-loop works fine</li><li><code>map()</code> for bonus credit</li></ul>
+    </ul>
+    <div id="people" class="people"></div>
+
+    <h4>Final Thoughts</h4>
+    <ul>
+        <li>Working with JSON data is an integral part of frontend engineering</li>
+        <li>A part of that is knowing how to parse, stringify, end encode/decode</li>
+        <li>With just a little bit of practice, it's easy to get the hang of</li>
+        <li>Work with backend engineers to make sure data is structured right</li>
+    </ul>
+</body>
+
+<script>
+    // JSON Example
+    const exampleJson = {
+        sampleString: "Subscribe to John Making Stuff",
+        "sample number": 100,
+        sampleArray: [true, false, true, true],
+        sampleObject: {
+            isExample: true,
+            isBadExample: false,
+        },
+    }
+
+    responseJson = {
+        success: true,
+        people: [
+            { name: "Billy Bob", age: 34 },
+            { name: "Lisa Lou", age: 53 },
+            { name: "Eddie Otte", age: 40 },
+        ]
+    }
+
+    function personToHTMLString (person) {
+        return `
+        <div>
+            <b>${person.name}</b>, age ${person.age}
+        </div><br>
+        `
+    }
+    
+</script>
+</html>
