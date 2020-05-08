@@ -1,0 +1,155 @@
+
+/* KEYFRAMES */
+
+
+@keyframes growSpinImage {
+    0% {
+        transform: translateX(-50%) translateY(-50%) rotate(270deg) scale(0.1);
+    }
+
+    10% {
+        transform: translateX(-50%) translateY(-50%) rotate(0deg) scale(1);
+    }
+    90% {
+        transform: translateX(-50%) translateY(-50%) rotate(0deg) scale(1);
+    }
+
+    100% {
+        transform: translateX(-50%) translateY(-50%) rotate(270deg) scale(0.1);
+    }
+}
+
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes spinImage {
+    0% {
+        transform: translateX(-50%) translateY(-50%) rotateY(270deg);
+    }
+
+    10% {
+        transform: translateX(-50%) translateY(-50%) rotateY(0deg);
+    }
+    90% {
+        transform: translateX(-50%) translateY(-50%) rotateY(0deg);
+    }
+
+    100% {
+        transform: translateX(-50%) translateY(-50%) rotateY(270deg);
+    }
+}
+
+
+.growSpinImage {
+    transform: translateX(-50%) translateY(-50%) rotate(270deg) scale(0.1);
+    animation: growSpinImage 5s linear;
+    animation-fill-mode: forwards;
+}
+
+.fade {
+    opacity: 0;
+    animation: fade 5s linear;
+}
+
+.fadeIn {
+    opacity: 0;
+    animation: fadeIn 5s linear;
+    animation-fill-mode: forwards;
+
+}
+
+.spinImage {
+    transform: translateX(-50%) translateY(-50%) rotate(270deg);
+    animation: spinImage 5s linear;
+    animation-fill-mode: forwards;
+} 
+
+
+/* GENERAL */
+
+* {
+    font-family: sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: azure;
+}
+
+
+/* CLASSES */
+
+.image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    height: 50%;
+}
+
+.stage {
+    position: relative;
+
+    width: 55vw;
+    height: 35vw;
+    padding: 20px;
+
+    background-color: white;
+    border-radius: 4px;
+}
+
+.text {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    height: 50px;
+    font-size: 8vw;
+
+    /* https://fonts.google.com/specimen/Pacifico?category=Sans+Serif,Handwriting&sidebar.open&selection.family=Pacifico */
+    font-family: 'Pacifico', cursive;
+}
+
+.title {
+    position: absolute;
+    top: -6vw;
+    font-size: 8vw;
+
+    /* https://fonts.google.com/specimen/Indie+Flower?category=Sans+Serif,Handwriting */
+    font-family: 'Indie Flower', cursive;
+}

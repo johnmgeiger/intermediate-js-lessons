@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: sans-serif;
+        color: #444;
+    }
+
+    ul { margin-left: 20px;}
+
+    .button {
+        padding: 20px;
+
+        border-radius: 2px;
+        background-color: #b57a6e;
+        color: #fff;
+        font-size: 20px;
+        outline: none;
+
+        transition: 0.3s;
+    }
+
+    .button:disabled {
+        background-color: #999;
+        color: rgba(1, 1, 1, 0);
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+    }
+
+    .card {
+        min-width: 95%;
+        max-width: 95%;
+        margin-bottom: 20px;
+        padding: 20px;
+
+        display: flex;
+
+        background-color: #FCFCFB;
+        box-shadow: 3px 3px 15px 1px #ddd;
+        border-radius: 4px;
+    }
+
+    .container {
+        width: 90vh;
+        max-width: 800px;
+        margin: auto;
+        padding: 50px 0;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .image {
+        width: 200px;
+        min-width: 200px;
+        height: 200px;
+        margin-right: 15px;
+
+        border-radius: 50%;
+        border: 10px solid #6e7ab5;
+    }
+
+    .text {
+        flex-grow: 1;
+        padding: 15px;
+
+        font-size: 18px;
+    }
+
+    .title {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+</style>
+<body>
+    <div id="container" class="container">
+        <div class="card">
+            <div class="text">
+                <h2 class="title">Chuck and Kanye</h2>
+
+                <p>
+                    <b>Goal:</b> Create an app that accesses the public APIs, <i>Kanye Rest</i> and 
+                    <i>Chuck Norris Jokes</i> to make an endless content generator.
+                </p>
+                <br>
+                <p>
+                    <b>Main Focus:</b>
+                    <ul>
+                        <li>AJAX request for content</li>
+                        <li>DRY code, to handle different responses</li>
+                    </ul>
+                </p>
+                <br>
+                <p>
+                    <b>APIs:</b>
+                    <ul>
+                        <li><a href="https://api.kanye.rest" target="_blank">Kanye Rest</a></li>
+                        <li><a href="https://api.chucknorris.io/jokes/random" target="_blank">Chuck Norris</a></li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+
+        <button id="contentButton" class="button">Load Killer Content</button>
+    </div>
+</body>
+
+<script>
+    (() => {
+        // CONSTANTS
+
+        const container = document.getElementById("container")
+        const contentButton = document.getElementById("contentButton")
+        const apis = [
+            {
+                id: "kanye",
+                name: "Kanye Quote",
+                url: "https://api.kanye.rest/",
+                getText: res => res.quote,
+                getImageUrl: () => './img/kanye.jpg'
+            },
+            {
+                id: "chuck",
+                name: "Chuck Norris",
+                url: "https://api.chucknorris.io/jokes/random",
+                getText: res => res.value,
+                getImageUrl: res => res.icon_url,
+            }
+        ]
+
+        // FUNCTIONS
+
+        function createNewCard (api, data) {
+            return `
+            <div class="card">
+                <img class="image" src="${api.getImageUrl(data)}" alt="${api.id}">
+                <div class="text">
+                    <h2 class="title">${api.name}</h2>
+                    <p>
+                       ${api.getText(data)}
+                    </p>
+                </div>
+            </div>
+            `
+        }
+
+        async function getNewCardData (url) {
+            try {
+                // basic fetch
+                const res = await fetch(url)
+
+                // get json of the data [note: async function ^^]
+                return await res.json()
+            } catch (err) { console.error(err)}
+        }
+
+        function getRandomApi () {
+            // get random index value for our api array
+            // so we can add new APIs later
+            const i =  Math.floor(Math.random() * Math.floor(apis.length))
+            return apis[i]         
+        }
+
+        async function handleNewCard (ev) {
+            ev.preventDefault()
+
+            // disable button while we make our call
+            setButtonDisabled()
+
+            try {
+                const api = getRandomApi()
+                const data = await getNewCardData(api.url)
+
+                // create card node
+                const card = stringToHTML(createNewCard(api, data))
+                
+                // place the card before our button
+                container.insertBefore(card, contentButton)
+            } catch (err) {
+                console.error(err)
+                alert("Something went wrong ):")
+            } finally {
+                // no matter what, re-enable our button
+                setButtonDisabled(false)
+            }
+        }
+
+        function setButtonDisabled (isDisabled = true) {
+            contentButton.disabled = isDisabled
+        }
+
+        function stringToHTML (str) {
+            // DOMParser creates document
+            var parser = new DOMParser()
+            var doc = parser.parseFromString(str, 'text/html')
+
+            // we just want our card
+            return doc.body.firstElementChild
+        }
+
+        // EVENTS
+        contentButton.addEventListener('click', handleNewCard)
+    })()
+</script>
+</html>
